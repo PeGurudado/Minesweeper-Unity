@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.IO;
 
 public class BoardController : MonoBehaviour
 {
@@ -13,15 +14,16 @@ public class BoardController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI mineCounterText;
 
+    private const string JSON_FILE_NAME = "board.json";
     private int markedMines;
 
     private Board board;
     private TileController[,] tileControllers;
 
+
     private void Start()
     {
-        board = new Board(width, height, totalMines);
-        board.GenerateRandomBoard();
+        LoadBoardConfiguration();
 
         tileControllers = new TileController[height, width];
 
@@ -72,5 +74,35 @@ public class BoardController : MonoBehaviour
     public TileController GetTileController(int row, int col)
     {
         return tileControllers[row,col]; 
+    }
+
+    private void LoadBoardConfiguration()
+    {
+        if (ConfigurationLoader.LoadedBoardConfig != null)
+        {
+            // Use the board configuration from the JSON
+            width = ConfigurationLoader.LoadedBoardConfig.width;
+            height = ConfigurationLoader.LoadedBoardConfig.height;            
+
+            // Generate or load the board based on the configuration
+            if (ConfigurationLoader.LoadedBoardConfig.randomGeneration || ConfigurationLoader.LoadedBoardConfig.minePositions == null)
+            {
+                totalMines = ConfigurationLoader.LoadedBoardConfig.totalMines;
+                board = new Board(width, height, totalMines);
+                board.GenerateRandomBoard();
+            }
+            else
+            {
+                // Use the mine positions from the board configuration
+                board = new Board(width, height, ConfigurationLoader.LoadedBoardConfig.minePositions);
+                totalMines = board.GetTotalMines();
+            }
+        }
+        else
+        {
+            // File doesn't exist, generate a random board
+            board = new Board(width, height, totalMines);
+            board.GenerateRandomBoard();
+        }
     }
 }

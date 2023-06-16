@@ -7,16 +7,37 @@ public class Board
     private int height;
     private int totalMines;
 
+    public Board(int width, int height, int[] minePositions)
+    {
+        this.width = width;
+        this.height = height;
+
+        tiles = new Tile[height, width];
+
+        for (int row = 0; row < height; row++)
+        {
+            for (int col = 0; col < width; col++)
+            {
+                bool isMine = minePositions[row * width + col] == 1;
+                if(isMine) this.totalMines++;
+                tiles[row, col] = new Tile(row, col, isMine);
+            }
+        }
+
+        CalculateNeighborMineCounts();
+    }
+
     public Board(int width, int height, int totalMines)
     {
         this.width = width;
         this.height = height;
         this.totalMines = totalMines;
+
+        tiles = new Tile[height, width];
     }
 
     public void GenerateRandomBoard()
     {
-        tiles = new Tile[height, width];
         int[,] minePositions = GetMinePositions();
 
         for (int row = 0; row < height; row++)
@@ -34,6 +55,10 @@ public class Board
     public Tile GetTile(int row, int col)
     {
         return tiles[row, col];
+    }
+
+    public int GetTotalMines(){
+        return totalMines;
     }
 
     public int GetNeighborMineCount(int row, int col)

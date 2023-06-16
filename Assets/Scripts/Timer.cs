@@ -10,6 +10,13 @@ public class Timer : MonoBehaviour
 
     private void Start()
     {
+        LoadTimerValue();        
+    }
+
+    void LoadTimerValue(){
+        if(ConfigurationLoader.LoadedBoardConfig != null && ConfigurationLoader.LoadedBoardConfig.totalTime > 0)
+            totalTime = ConfigurationLoader.LoadedBoardConfig.totalTime; // Tries to load timer value from Json data
+
         currentTime = totalTime;
     }
 
