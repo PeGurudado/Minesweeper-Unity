@@ -13,15 +13,16 @@ public class ConfigurationLoader : MonoBehaviour
     private void Awake()
     {
         jsonFilePath = Path.Combine(Application.streamingAssetsPath, JSON_FILE_NAME);
-
         LoadConfigFromJson();
     }
 
-    void LoadConfigFromJson(){
+    private void LoadConfigFromJson(){
         if (File.Exists(jsonFilePath))
         {
             string json = File.ReadAllText(jsonFilePath);
             LoadedBoardConfig = JsonUtility.FromJson<BoardConfig>(json);
         }
+        else
+            LoadedBoardConfig = null; 
     }
 }

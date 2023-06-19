@@ -34,6 +34,8 @@ public class Board
         this.totalMines = totalMines;
 
         tiles = new Tile[height, width];
+
+        GenerateRandomBoard();
     }
 
     public void GenerateRandomBoard()

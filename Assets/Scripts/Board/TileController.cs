@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class TileController : MonoBehaviour
 {
@@ -12,15 +13,14 @@ public class TileController : MonoBehaviour
     private BoardController boardController;
     private Tile tile;
 
-    public void Initialize(Tile tile)
+    public void Initialize(Tile tile, BoardController boardController)
     {
         this.tile = tile;       
-        UpdateTileVisuals();
+        this.boardController = boardController;      
     }
 
     private void Start() {
         rectTransform = GetComponent<RectTransform>();
-        boardController = FindObjectOfType<BoardController>();
     }
 
     public Tile GetTile(){
@@ -28,9 +28,7 @@ public class TileController : MonoBehaviour
     }
 
     public void UpdateTileVisuals()
-    {
-        Debug.Log("Update tile visuals "+ "row:" + tile.Row + " column:"+ tile.Column);
-        
+    {        
         if(tile.IsOpened)
         {
             if(tile.IsMine){
@@ -54,15 +52,9 @@ public class TileController : MonoBehaviour
         }
     }
 
-    // private void OnMouseOver()
-    // {
-    //     if (Input.GetMouseButtonDown(0))
-    //         LeftClick();
-    //     else if (Input.GetMouseButtonDown(1))
-    //         RightClick();
-    // }
-
     private void Update() {
+        if(Gamemanager.Instance.IsGameOver || Gamemanager.Instance.IsGameWon) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             if(IsMouseOverTile())
@@ -84,11 +76,12 @@ public class TileController : MonoBehaviour
                 OpenNeighbors();
         }
         UpdateTileVisuals();
+        Gamemanager.Instance.CheckGameStatus();
     }
 
-    private void RightClick()
+    public void RightClick()
     {
-        if(!tile.IsOpened)
+        if (!tile.IsOpened)
         {
             boardController.AddMarkedMines( tile.ToggleMark()? 1 : -1); // Toggle tile mark and update marked mines value at Board Controller
             UpdateTileVisuals();
@@ -123,6 +116,32 @@ public class TileController : MonoBehaviour
         }
     }
 
+    public List<TileController> GetNeighborTileControllers()
+    {
+        List<TileController> neighbors = new List<TileController>();
+
+        int row = tile.Row;
+        int col = tile.Column;
+
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                int neighborRow = row + i;
+                int neighborCol = col + j;
+
+                if (boardController.IsValidPosition(neighborRow, neighborCol) &&
+                    (neighborRow != row || neighborCol != col))
+                {
+                    TileController neighborController = boardController.GetTileController(neighborRow, neighborCol);
+                    neighbors.Add(neighborController);
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
     private bool IsMouseOverTile()
     {
         Vector3 mousePosition = Input.mousePosition;
@@ -131,8 +150,8 @@ public class TileController : MonoBehaviour
         // Convert mouse position to the same scale as tile position
         mousePosition = new Vector3(mousePosition.x, mousePosition.y, tilePosition.z);
 
-        // Get the tile size from the RectTransform
-        Vector2 tileSize = GetComponent<RectTransform>().sizeDelta;
+        // Get the tile size from the RectTransform, make the tile click size a little smaller to avoid multiple tile clicks
+        Vector2 tileSize = rectTransform.sizeDelta * 0.95f; 
 
         // Calculate the bounds of the tile
         Bounds tileBounds = new Bounds(tilePosition, new Vector3(tileSize.x, tileSize.y, 0f));
