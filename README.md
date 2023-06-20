@@ -1,5 +1,11 @@
 # Minesweeper-Unity
 
+![Captura de Tela (26)](https://github.com/PeGurudado/Minesweeper-Unity/assets/43541901/46425e30-1e0a-4986-84c0-344d7114eb21)
+
+![Captura de Tela (27)](https://github.com/PeGurudado/Minesweeper-Unity/assets/43541901/9737f485-ad09-437e-8beb-cc7dbd70a49a)
+
+## [Release link here](https://github.com/PeGurudado/Minesweeper-Unity/releases)
+
 **Minesweeper Test**
 
 **1. The assignment is to create a Minesweeper clone in Unity with the following
