@@ -3046,7 +3046,7 @@ MonoBehaviour:
   heightValueText: {fileID: 680517919}
   minesValueText: {fileID: 229117145}
   minesMaxValueText: {fileID: 1718706739}
-  maxMineValue: 100
+  maxMineValue: 120
 --- !u!1 &1718706737
 GameObject:
   m_ObjectHideFlags: 0
@@ -3105,7 +3105,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 120
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0291c5040fa9a0b47afcc25c5c832cce, type: 2}
   m_sharedMaterial: {fileID: 3155353557808280726, guid: 0291c5040fa9a0b47afcc25c5c832cce, type: 2}
@@ -3270,7 +3270,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1555763587}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 120
   m_WholeNumbers: 1
   m_Value: 22
   m_OnValueChanged:

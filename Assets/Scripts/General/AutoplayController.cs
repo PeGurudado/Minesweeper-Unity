@@ -31,13 +31,13 @@ public class AutoplayController : MonoBehaviour
             StopAllCoroutines();
     }
 
-    IEnumerator PlayGame()
+    private IEnumerator PlayGame()
     {
         isPlaying = true;
 
         // Perform autoplay logic here
         int tempCounter = 0;
-        while (isPlaying)
+        while (isPlaying && !GameManager.Instance.IsGameNotRunning())
         {
             bool moveMade = MakeAutoplayMove();
             tempCounter++;
@@ -75,6 +75,10 @@ public class AutoplayController : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Calculate the Bomb Chance in that specific tile.
+    /// Works by checking the nBombs on tile number minus already known bombs with a mark, divided to the remaining valid spaces, note this function should only be called on a closed tile 
+    /// </summary>
     private float CalculateBombChance(TileController tile)
     {
         float closestTo01Chance = 0.5f;
@@ -97,17 +101,6 @@ public class AutoplayController : MonoBehaviour
                 float currentChance = (nBombs - closeMarks) / validSpaces;
                 if (currentChance == 1 || currentChance == 0)
                     return currentChance;
-
-                if (currentChance > 0.5f && currentChance < 1)
-                {
-                    if (currentChance > closestTo01Chance)
-                        closestTo01Chance = currentChance;
-                }
-                else if (currentChance < 0.5f && currentChance > 0)
-                {
-                    if (currentChance < closestTo01Chance)
-                        closestTo01Chance = currentChance;
-                }
             }
         }
 

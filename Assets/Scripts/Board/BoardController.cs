@@ -138,6 +138,10 @@ public class BoardController : MonoBehaviour
         return true;
     }
 
+    public bool HasMarkedAllMines(){
+        return (totalMines - markedMines == 0);
+    }
+
     public bool HasOpenedAnyMine(){
         bool hasOpenedMine = false;
 

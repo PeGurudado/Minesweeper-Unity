@@ -3024,7 +3024,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b86a37832cc9d34da834feb50386798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalMines: 100
   tileParentGrid: {fileID: 1988694878}
   tilePrefab: {fileID: 7462905398815275687, guid: 6a6bb32bdc9621b4a82cedf76413f76a, type: 3}
   mineCounterText: {fileID: 1747548031}
@@ -4008,6 +4007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoplayToggle: {fileID: 1811679614}
   boardController: {fileID: 1466425310}
+  autoplayDelay: 0.5
 --- !u!1 &2079392374
 GameObject:
   m_ObjectHideFlags: 0

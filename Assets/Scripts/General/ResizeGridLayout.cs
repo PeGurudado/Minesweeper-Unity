@@ -10,7 +10,7 @@ public class ResizeGridLayout : MonoBehaviour
     [SerializeField] private int minSize = 15;
     [SerializeField] private int maxSize = 200;
 
-    int currentSize;
+    private int currentSize;
 
     private void Awake() {
         gridLayoutGroup = GetComponent<GridLayoutGroup>();        
@@ -21,7 +21,7 @@ public class ResizeGridLayout : MonoBehaviour
         StartCoroutine(ResizeCellSize());
     }
 
-    IEnumerator ResizeCellSize()
+    private IEnumerator ResizeCellSize()
     {
         gridLayoutGroup.cellSize = new Vector2(maxSize, maxSize);
         yield return new WaitForFixedUpdate();

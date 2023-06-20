@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Gamemanager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameoverScreen;
     [SerializeField] private GameObject congratulationsScreen;
 
     [SerializeField] private BoardController boardController;
-    public static Gamemanager Instance { get; private set; }
+    public static GameManager Instance { get; private set; }
 
     public bool IsGameOver { get; private set; }
     public bool IsGameWon { get; private set; }
@@ -32,8 +32,12 @@ public class Gamemanager : MonoBehaviour
     {             
         if(boardController.HasOpenedAnyMine())// Game over condition
             GameOver();
-        else if (boardController.AllTilesOpenedWithoutMines())// Game win condition                
+        else if (boardController.AllTilesOpenedWithoutMines() && boardController.HasMarkedAllMines())// Game win condition                
             GameWin();           
+    }
+
+    public bool IsGameNotRunning(){
+        return IsGameOver || IsGameWon;
     }
 
     public void GameOver()

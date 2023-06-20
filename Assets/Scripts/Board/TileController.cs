@@ -53,7 +53,7 @@ public class TileController : MonoBehaviour
     }
 
     private void Update() {
-        if(Gamemanager.Instance.IsGameOver || Gamemanager.Instance.IsGameWon) return;
+        if(GameManager.Instance.IsGameNotRunning()) return;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -76,7 +76,7 @@ public class TileController : MonoBehaviour
                 OpenNeighbors();
         }
         UpdateTileVisuals();
-        Gamemanager.Instance.CheckGameStatus();
+        GameManager.Instance.CheckGameStatus();
     }
 
     public void RightClick()
@@ -86,6 +86,7 @@ public class TileController : MonoBehaviour
             boardController.AddMarkedMines( tile.ToggleMark()? 1 : -1); // Toggle tile mark and update marked mines value at Board Controller
             UpdateTileVisuals();
         }
+        GameManager.Instance.CheckGameStatus();
     }
 
     public void OpenNeighbors()
@@ -151,7 +152,7 @@ public class TileController : MonoBehaviour
         mousePosition = new Vector3(mousePosition.x, mousePosition.y, tilePosition.z);
 
         // Get the tile size from the RectTransform, make the tile click size a little smaller to avoid multiple tile clicks
-        Vector2 tileSize = rectTransform.sizeDelta * 0.95f; 
+        Vector2 tileSize = rectTransform.sizeDelta * 0.65f; 
 
         // Calculate the bounds of the tile
         Bounds tileBounds = new Bounds(tilePosition, new Vector3(tileSize.x, tileSize.y, 0f));

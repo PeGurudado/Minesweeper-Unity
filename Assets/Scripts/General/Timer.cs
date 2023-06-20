@@ -3,7 +3,7 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    private float totalTime = 600f; // Total time in seconds
+    [SerializeField] private float totalTime = 600f; // Total time in seconds
     private float currentTime;
     [SerializeField] private TextMeshProUGUI timerText;
 
@@ -21,16 +21,16 @@ public class Timer : MonoBehaviour
 
     private void Update()
     {
-        if(Gamemanager.Instance.IsGameOver || Gamemanager.Instance.IsGameWon) return;
+        if(GameManager.Instance.IsGameNotRunning()) return;
 
-        if (currentTime > 0f)
+        if (currentTime > 1f)
         {
             currentTime -= Time.deltaTime;
             UpdateTimerText();
         }
         else
         {
-            Gamemanager.Instance.RestartScene();
+            GameManager.Instance.GameOver();
         }
     }
 

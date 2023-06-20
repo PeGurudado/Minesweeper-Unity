@@ -71,7 +71,7 @@ public class MenuManager : MonoBehaviour
     }
 
     public void PlayButton(){
-        if(ConfigurationLoader.LoadedBoardConfig == null){ // If json exist, it will get these values from him
+        if(ConfigurationLoader.LoadedBoardConfig == null){ // If the JSON exists, it will retrieve these values from it.
             ConfigurationLoader.LoadedBoardConfig = new BoardConfig((int) widthSlider.value, (int) heightSlider.value, (int) minesSlider.value);
         }
 
